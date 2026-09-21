@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    container_name: startinvest-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: startinvest
+      POSTGRES_USER: startinvest
+      POSTGRES_PASSWORD: startinvest
+    ports:
+      - "5432:5432"
+    volumes:
+      - startinvest_pg_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U startinvest -d startinvest"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  startinvest_pg_data:
